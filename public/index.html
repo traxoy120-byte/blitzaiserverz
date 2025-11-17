@@ -63,6 +63,9 @@
   </div>
 
   <script>
+    const input = document.getElementById("prompt");
+    const responseBox = document.getElementById("response");
+
     async function generateSmartReply(prompt) {
       try {
         const res = await fetch("/api/ask", {
@@ -78,8 +81,6 @@
     }
 
     async function askBlitz() {
-      const input = document.getElementById("prompt");
-      const responseBox = document.getElementById("response");
       const prompt = input.value.trim();
       if (!prompt) return;
 
@@ -97,6 +98,12 @@
       }
       type();
     }
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        askBlitz();
+      }
+    });
   </script>
 </body>
 </html>
