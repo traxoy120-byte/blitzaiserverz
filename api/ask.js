@@ -9,11 +9,19 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
   const { prompt } = req.body;
+  if (!prompt) return res.status(400).json({ error: "Missing prompt" });
+
   try {
     const completion = await openai.createChatCompletion({
       model: "gpt-4",
       messages: [{ role: "user", content: prompt }],
     });
+    const reply = completion.data.choices[0].message.content;
+    res.status(200).json({ reply });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
     const reply = completion.data.choices[0].message.content;
     res.status(200).json({ reply });
   } catch (err) {
